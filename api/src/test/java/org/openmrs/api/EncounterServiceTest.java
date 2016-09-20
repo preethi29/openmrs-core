@@ -83,6 +83,7 @@ public class EncounterServiceTest extends BaseContextSensitiveTest {
 	
 	protected static final String TRANSFER_ENC_DATA_XML = "org/openmrs/api/include/EncounterServiceTest-transferEncounter.xml";
 	protected static final String ORDER_SET = "org/openmrs/api/include/OrderSetServiceTest-general.xml";
+	protected static final String NESTED_OBS = "org/openmrs/api/include/EncounterServiceTest-nestedObs.xml";
 	
 	private EncounterService encounterService;
 
@@ -2958,5 +2959,49 @@ public class EncounterServiceTest extends BaseContextSensitiveTest {
 		}
 		
 		assertEquals("Two New Order Groups Get Saved", 2, orderGroups.size());
+	}
+
+	@Test
+	public void shouldNotRecreateEntireObsHierarchyWhenNewGroupMemberIsAddedToTopLevelObs() throws Exception {
+		executeDataSet(NESTED_OBS);
+
+		Encounter encounter = Context.getEncounterService().getEncounter(7);
+		int beforeCount = encounter.getAllObs(true).size();
+		Obs newGroupMember = new Obs();
+		newGroupMember.setConcept(Context.getConceptService().getConcept(62));
+		newGroupMember.setValueNumeric(72.0);
+		Obs topObs = Context.getObsService().getObs(16);
+		topObs.addGroupMember(newGroupMember);
+		encounter.addObs(topObs);
+		Context.getEncounterService().saveEncounter(encounter);
+
+		Context.flushSession();
+		Context.clearSession();
+
+		Encounter savedEncounter = Context.getEncounterService().getEncounter(7);
+
+		assertEquals(beforeCount+1, savedEncounter.getAllObs(true).size() );
+	}
+
+	@Test
+	public void shouldNotRecreateEntireObsHierarchyWhenNewGroupMemberIsAddedToNestedLevelObs() throws Exception {
+		executeDataSet(NESTED_OBS);
+
+		Encounter encounter = Context.getEncounterService().getEncounter(7);
+		int beforeCount = encounter.getAllObs(true).size();
+		Obs newGroupMember = new Obs();
+		newGroupMember.setConcept(Context.getConceptService().getConcept(64));
+		newGroupMember.setValueNumeric(72.0);
+		Obs topObs = Context.getObsService().getObs(16);
+		topObs.getGroupMembers().iterator().next().addGroupMember(newGroupMember);
+		encounter.addObs(topObs);
+		Context.getEncounterService().saveEncounter(encounter);
+
+		Context.flushSession();
+		Context.clearSession();
+
+		Encounter savedEncounter = Context.getEncounterService().getEncounter(7);
+
+		assertEquals(beforeCount+1, savedEncounter.getAllObs(true).size() );
 	}
 }

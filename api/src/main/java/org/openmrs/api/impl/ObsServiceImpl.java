@@ -139,9 +139,11 @@ public class ObsServiceImpl extends BaseOpenmrsService implements ObsService {
 							Obs replacement = os.saveObs(o, changeMessage);
 							//The logic in saveObs evicts the old obs instance, so we need to update
 							//the collection with the newly loaded and voided instance
-							toRemove.add(o);
-							toAdd.add(os.getObs(o.getId()));
-							toAdd.add(replacement);
+							if(!replacement.equals(o)) {
+								toRemove.add(o);
+								toAdd.add(os.getObs(o.getId()));
+								toAdd.add(replacement);
+							}
 						}
 					}
 					
