@@ -24,12 +24,12 @@
                   locale_preferred="1" voided="false" uuid="f4d0b584-6ce5-40e2-9ce5-fa7ec07b32a4"/>
 
     <!--Vitals -> Pulse, Blood Pressure-->
-    <concept_set concept_set_id="111" concept_id="61" concept_set="62" sort_weight="10.0" creator="1"
+    <concept_set concept_set_id="111" concept_id="62" concept_set="61" sort_weight="10.0" creator="1"
                  date_created="2015-08-18 12:38:58.0" uuid="2a111827-639f-4cb5-961f-1e025bf88da1"/>
-    <concept_set concept_set_id="112" concept_id="61" concept_set="63" sort_weight="20.0" creator="1"
+    <concept_set concept_set_id="112" concept_id="63" concept_set="61" sort_weight="20.0" creator="1"
                  date_created="2015-08-18 12:38:58.0" uuid="2a111827-639f-4cb5-961f-1e025bf88da2"/>
     <!--BloodPressure -> Systolic-->
-    <concept_set concept_set_id="113" concept_id="63" concept_set="64" sort_weight="10.0" creator="1"
+    <concept_set concept_set_id="113" concept_id="64" concept_set="63" sort_weight="10.0" creator="1"
                  date_created="2015-08-18 12:38:58.0" uuid="2a111827-639f-4cb5-961f-1e025bf88da3"/>
 
     <visit visit_id="20007" patient_id="2" location_id="1" visit_type_id="1" date_started="2005-01-01 00:00:00.0"
